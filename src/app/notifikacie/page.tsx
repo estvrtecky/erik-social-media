@@ -1,4 +1,4 @@
-// src/app/not-found.tsx
+// src/app/notifikacie/page.tsx
 
 import { Container, Typography } from "@mui/material";
 
