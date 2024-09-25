@@ -4,7 +4,7 @@ import { Container, Typography } from "@mui/material";
 
 export const metadata = { title: 'Odhlasenie | Insta 2.0' };
 
-export default function Odhlasenie() {
+export default function SignOut() {
     return (
         <Container>
             <Typography> Odhlasenie </Typography>
