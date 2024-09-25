@@ -7,7 +7,7 @@ export const metadata = { title: 'Error | Insta 2.0' };
 export default function Home() {
     return (
         <Container>
-            <Typography> Stranka sa nenasla </Typography>
+            <Typography> Vyhladavanie </Typography>
         </Container>
     );
 }
