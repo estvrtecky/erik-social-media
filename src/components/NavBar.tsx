@@ -1,14 +1,26 @@
-// src/components/NavBar.tsx
-
 "use client";
 
 import * as React from 'react';
 import Link from 'next/link';
 import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
-import { Home as HomeIcon, Search as SearchIcon, AddBox as AddBoxIcon, Notifications as NotificationsIcon, AccountCircle as AccountCircleIcon } from '@mui/icons-material';
+import { Home as HomeIcon, AccountCircle as AccountCircleIcon, AddCircle as AddCircleIcon, Login as LoginIcon, AppRegistration as AppRegistrationIcon } from '@mui/icons-material';
+import { usePathname } from 'next/navigation';
 
 export default function NavBar() {
   const [value, setValue] = React.useState(0);
+  
+  const pathname = usePathname();  // Access the current path
+
+  // Map of paths to BottomNavigation index values
+  const paths = ['/', '/profil', '/prispevok', '/auth/prihlasenie', '/auth/registracia'];
+
+  // Update the active tab based on the current path
+  React.useEffect(() => {
+    const currentPathIndex = paths.indexOf(pathname);
+    if (currentPathIndex !== -1) {
+      setValue(currentPathIndex);
+    }
+  }, [pathname]); // Re-run when the pathname changes
 
   return (
     <Paper 
@@ -19,34 +31,49 @@ export default function NavBar() {
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
-          setValue(newValue);
+          setValue(newValue); // Update the active state
         }}
         showLabels={false}
         sx={{ alignItems: 'center' }} // Center the icons vertically
       >
         {/* Home Link */}
         <Link href="/" passHref>
-          <BottomNavigationAction icon={<HomeIcon />} />
-        </Link>
-
-        {/* Search Link */}
-        <Link href="/hladanie" passHref>
-          <BottomNavigationAction icon={<SearchIcon />} />
-        </Link>
-
-        {/* Add Post Link */}
-        <Link href="/pridat" passHref>
-          <BottomNavigationAction icon={<AddBoxIcon />} />
-        </Link>
-
-        {/* Notifications Link */}
-        <Link href="/notifikacie" passHref>
-          <BottomNavigationAction icon={<NotificationsIcon />} />
+          <BottomNavigationAction
+            icon={<HomeIcon />}
+            sx={{ color: value === 0 ? 'primary.main' : 'text.secondary' }} // Highlight active
+          />
         </Link>
 
         {/* Profile Link */}
         <Link href="/profil" passHref>
-          <BottomNavigationAction icon={<AccountCircleIcon />} />
+          <BottomNavigationAction
+            icon={<AccountCircleIcon />}
+            sx={{ color: value === 1 ? 'primary.main' : 'text.secondary' }} // Highlight active
+          />
+        </Link>
+
+        {/* Add Post Link */}
+        <Link href="/prispevok" passHref>
+          <BottomNavigationAction
+            icon={<AddCircleIcon />}
+            sx={{ color: value === 2 ? 'primary.main' : 'text.secondary' }} // Highlight active
+          />
+        </Link>
+
+        {/* Log In Link */}
+        <Link href="/auth/prihlasenie" passHref>
+          <BottomNavigationAction
+            icon={<LoginIcon />}
+            sx={{ color: value === 3 ? 'primary.main' : 'text.secondary' }} // Highlight active
+          />
+        </Link>
+
+        {/* Sign Up Link */}
+        <Link href="/auth/registracia" passHref>
+          <BottomNavigationAction
+            icon={<AppRegistrationIcon />}
+            sx={{ color: value === 4 ? 'primary.main' : 'text.secondary' }} // Highlight active
+          />
         </Link>
       </BottomNavigation>
     </Paper>
