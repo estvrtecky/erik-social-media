@@ -1,13 +1,13 @@
 // src/app/profil/[id]/page.tsx
 
-import { Container, Typography } from "@mui/material";
+export const metadata = { title: 'Profile details | Insta 2.0' };
 
-export const metadata = { title: 'Profile datails | Insta 2.0' };
-
-export default function ProfileDetails() {
+export default function ProfileDetails({ params }: {
+    params: { id: string }
+  }) {
+  const { id } = params
+  
   return (
-    <Container>
-      <Typography> Profile details </Typography>
-    </Container>
+    <h1>Detials about profile with id: {id} </h1>
   );
 }

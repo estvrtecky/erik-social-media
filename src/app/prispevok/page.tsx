@@ -1,4 +1,4 @@
-// src/app/post/page.tsx
+// src/app/prispevok/page.tsx
 
 import { Container, Typography } from "@mui/material";
 

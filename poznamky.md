@@ -1,4 +1,7 @@
 # POZNAMKY NEXT.JS
+
+## Commands
+
 ### Build App
 `npm run build`
 
@@ -12,3 +15,12 @@
 - `page.tsx` – stranka v priecinku
 - `not-found.tsx` – pre stranky ktore nenaslo
 - `layout.tsx`
+
+## Dynamic Route
+- inside `[]` brackets - `[profileId]`
+```
+app/
+ |--post/
+     |--[postId]/
+         |--page.tsx
+```
