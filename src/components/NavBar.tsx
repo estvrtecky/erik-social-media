@@ -1,81 +1,75 @@
+// src/components/Navbar.tsx
+
 "use client";
 
 import * as React from 'react';
-import Link from 'next/link';
-import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
-import { Home as HomeIcon, AccountCircle as AccountCircleIcon, AddCircle as AddCircleIcon, Login as LoginIcon, AppRegistration as AppRegistrationIcon } from '@mui/icons-material';
-import { usePathname } from 'next/navigation';
+import { BottomNavigation, BottomNavigationAction, Box, Avatar } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import SearchIcon from '@mui/icons-material/Search';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import LoginIcon from '@mui/icons-material/Login';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useRouter } from 'next/navigation';
+import { useSession } from "next-auth/react";
 
-export default function NavBar() {
-  const [value, setValue] = React.useState(0);
-  
-  const pathname = usePathname();  // Access the current path
+export default function Navbar() {
+  const [value, setValue] = React.useState('/');
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
-  // Map of paths to BottomNavigation index values
-  const paths = ['/', '/profil', '/prispevok', '/auth/prihlasenie', '/auth/registracia'];
+  const handleNavigation = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+    router.push(newValue);
+  };
 
-  // Update the active tab based on the current path
-  React.useEffect(() => {
-    const currentPathIndex = paths.indexOf(pathname);
-    if (currentPathIndex !== -1) {
-      setValue(currentPathIndex);
-    }
-  }, [pathname]); // Re-run when the pathname changes
+  // Non-authenticated navigation paths
+  const nonAuthPaths = [
+    { label: "Domov", value: "/", icon: <HomeIcon /> },
+    { label: "Prispevky", value: "/prispevok", icon: <AddCircleIcon /> },
+    { label: "Registrácia", value: "/auth/registracia", icon: <AppRegistrationIcon /> },
+    { label: "Prihlásenie", value: "/auth/prihlasenie", icon: <LoginIcon /> }
+  ];
+
+  // Authenticated navigation paths
+  const authPaths = [
+    { label: "Domov", value: "/", icon: <HomeIcon /> },
+    { label: "Hľadať", value: "/hladat", icon: <SearchIcon /> },
+    { label: "Pridať", value: "/pridat", icon: <AddCircleIcon /> },
+    {
+      label: "Profil",
+      value: "/profil",
+      icon: session?.user?.image ? (
+        <Avatar 
+          alt={session?.user?.name || "User"} 
+          src={session?.user?.image || undefined} 
+        />
+      ) : (
+        <Avatar>{session?.user?.name?.charAt(0) || "U"}</Avatar>
+      )
+    },
+    { label: "Odhlásiť", value: "/auth/odhlasenie", icon: <LogoutIcon /> },
+  ];
+
+  // Decide which paths to use based on authentication status
+  const navigationPaths = status === "authenticated" ? authPaths : nonAuthPaths;
 
   return (
-    <Paper 
-      component="div" // Specify the component type
-      sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} 
-      elevation={3} // Add elevation for shadow effect
-    >
+    <Box sx={{ width: '100%', position: 'fixed', bottom: 0 }}>
       <BottomNavigation
+        showLabels
         value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue); // Update the active state
-        }}
-        showLabels={false}
-        sx={{ alignItems: 'center' }} // Center the icons vertically
+        onChange={handleNavigation}
       >
-        {/* Home Link */}
-        <Link href="/" passHref>
+        {navigationPaths.map((path) => (
           <BottomNavigationAction
-            icon={<HomeIcon />}
-            sx={{ color: value === 0 ? 'primary.main' : 'text.secondary' }} // Highlight active
+            key={path.value}
+            label={path.label}
+            value={path.value}
+            icon={path.icon}
           />
-        </Link>
-
-        {/* Profile Link */}
-        <Link href="/profil" passHref>
-          <BottomNavigationAction
-            icon={<AccountCircleIcon />}
-            sx={{ color: value === 1 ? 'primary.main' : 'text.secondary' }} // Highlight active
-          />
-        </Link>
-
-        {/* Add Post Link */}
-        <Link href="/prispevok" passHref>
-          <BottomNavigationAction
-            icon={<AddCircleIcon />}
-            sx={{ color: value === 2 ? 'primary.main' : 'text.secondary' }} // Highlight active
-          />
-        </Link>
-
-        {/* Log In Link */}
-        <Link href="/auth/prihlasenie" passHref>
-          <BottomNavigationAction
-            icon={<LoginIcon />}
-            sx={{ color: value === 3 ? 'primary.main' : 'text.secondary' }} // Highlight active
-          />
-        </Link>
-
-        {/* Sign Up Link */}
-        <Link href="/auth/registracia" passHref>
-          <BottomNavigationAction
-            icon={<AppRegistrationIcon />}
-            sx={{ color: value === 4 ? 'primary.main' : 'text.secondary' }} // Highlight active
-          />
-        </Link>
+        ))}
       </BottomNavigation>
-    </Paper>
+    </Box>
   );
 }

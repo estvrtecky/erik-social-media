@@ -1,13 +1,10 @@
 // src/app/auth/prihlasenie/page.tsx
 
-import { Container, Typography } from "@mui/material";
 
-export const metadata = { title: 'Prihlasenie | Insta 2.0' };
+import SignInView from "@/sections/SignInView";
 
-export default function SignIn() {
-    return (
-        <Container>
-            <Typography> Prihlasenie </Typography>
-        </Container>
-    );
+export const metadata = { title: "Prihlásenie užívateľa | ZoškaSnap" };
+
+export default function SignInPage() {
+  return <SignInView />;
 }

@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import NavBar from "../components/NavBar";
+// src/app/layout.tsx
 
+import { Metadata } from "next";
+import "./globals.css";
+import Navbar from "../components/NavBar";
+import AuthProvider from "../components/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "Insta 2.0",
-  description: "Created by Erik",
+  title: "SnapZoška",
+  description: "Created by students of SPŠE Zochova 9, Bratislava",
 };
 
 export default function RootLayout({
@@ -16,8 +18,14 @@ export default function RootLayout({
   return (
     <html lang="sk">
       <body>
-        {children}
-        <NavBar />
+        <AuthProvider>
+          <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <main style={{ flexGrow: 1 }}>
+              {children}
+            </main>
+          </div>
+          <Navbar /> 
+        </AuthProvider>
       </body>
     </html>
   );
