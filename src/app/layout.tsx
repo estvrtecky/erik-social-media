@@ -6,25 +6,28 @@ import Navbar from "../components/NavBar";
 import AuthProvider from "../components/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "SnapZoška",
+  title: "Insta 2.0",
   description: "Created by students of SPŠE Zochova 9, Bratislava",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="sk">
       <body>
         <AuthProvider>
-          <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <main style={{ flexGrow: 1 }}>
-              {children}
-            </main>
+          <div
+            style={{
+              minHeight: "100vh",
+              display: "flex",
+              flexDirection: "column",
+            }}>
+            <main style={{ flexGrow: 1 }}>{children}</main>
           </div>
-          <Navbar /> 
+          <Navbar />
         </AuthProvider>
       </body>
     </html>

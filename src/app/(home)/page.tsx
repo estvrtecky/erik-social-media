@@ -1,17 +1,33 @@
-// src/app/page.tsx
+// src/app/(home)/page.tsx
 
-
+import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
-import AuthHomeView from "@/sections/AuthHomeView";
-import NonAuthHomeView from "@/sections/NonAuthHomeView";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 
-export const metadata = { title: "Domov | ZoškaSnap" };
+export const metadata = { title: "Domov | Insta 2.0" };
 
 export default async function HomePage() {
   // Fetch session on the server
   const session = await getServerSession(authOptions);
 
-  // Conditionally render authenticated or non-authenticated home view
-  return session ? <AuthHomeView session={session} /> : <NonAuthHomeView />;
+  if (session) {
+    // Redirect authenticated users to the feed page
+    redirect("/prispevok");
+  }
+
+  // Show the unauthenticated home view for non-authenticated users
+  return (
+    <Container>
+      <Typography variant="h3">
+        {" "}
+        Domovská stránka - NEprihlásený user{" "}
+      </Typography>
+      <Typography variant="h6">
+        {" "}
+        Registrujte sa, aby ste mohli pridať príspevky a zobraziť profil.{" "}
+      </Typography>
+    </Container>
+  );
 }
