@@ -2,12 +2,12 @@
 
 import { Container, Typography } from "@mui/material";
 
-export const metadata = { title: 'Pridat | Insta 2.0' };
+export const metadata = { title: "Pridat | Insta 2.0" };
 
-export default function Pridat() {
+export default function Add() {
   return (
     <Container>
-      <Typography> Pridat </Typography>
+      <Typography> Pridať </Typography>
     </Container>
   );
 }

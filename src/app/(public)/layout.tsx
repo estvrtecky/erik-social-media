@@ -1,6 +1,6 @@
 // src/app/(public)/layout.tsx
 
-export const metadata = { title: "Public | Insta 2.0" };
+import { Box } from "@mui/material";
 
 export default function PublicLayout({
   children,
@@ -8,8 +8,16 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      {children} {/* Render public pages */}
-    </div>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "background.default",
+        px: 2,
+      }}>
+      {children}
+    </Box>
   );
 }

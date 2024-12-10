@@ -1,14 +1,9 @@
-// src/sections/SignInView.tsx
-
 "use client";
 
-import {
-    Button,
-    Container,
-    Typography,
-  } from "@mui/material";
-  import { signIn } from "next-auth/react";
-  import GoogleIcon from "@mui/icons-material/Google";
+import { Button, Container, Typography } from "@mui/material";
+import { signIn } from "next-auth/react";
+import GoogleIcon from "@mui/icons-material/Google";
+import GitHubIcon from "@mui/icons-material/GitHub"; // GitHub icon
 
 export default function SignInView() {
   return (
@@ -23,80 +18,49 @@ export default function SignInView() {
         bgcolor: "background.paper",
         boxShadow: 3,
         borderRadius: 2,
-      }}
-    >
+      }}>
       {/* Logo / Title */}
-      <Typography variant="h5" sx={{ mb: 3 }}>
+      <Typography
+        variant="h5"
+        sx={{ mb: 3 }}>
         Prihlásenie
       </Typography>
 
-      {/* Google Sign Up */}
+      <Typography
+        variant="body1"
+        sx={{ mb: 6 }}>
+        Nemáte účet? <a href="/auth/registracia">Registrujte sa</a>
+      </Typography>
+
+      {/* Google Sign In */}
       <Button
         variant="outlined"
         fullWidth
         startIcon={<GoogleIcon />}
         onClick={() => signIn("google")}
-        sx={{ mb: 1 }}
-      >
+        sx={{ mb: 1 }}>
         Prihlásiť sa účtom Google
       </Button>
 
-
+      {/* GitHub Sign In - Iconic button */}
+      <Button
+        variant="contained"
+        fullWidth
+        startIcon={<GitHubIcon />} // GitHub icon
+        onClick={() => {
+          // Placeholder function, replace with GitHub sign-in logic tomorrow
+          console.log("GitHub sign-in (dummy) clicked");
+        }}
+        sx={{
+          mb: 1,
+          bgcolor: "#333", // Dark background similar to GitHub's color
+          color: "white", // White text color
+          "&:hover": {
+            bgcolor: "#444", // Darker shade for hover effect
+          },
+        }}>
+        GitHub
+      </Button>
     </Container>
   );
 }
-
-
-      // {/* Facebook Sign Up */}
-      // <Button
-      //   variant="outlined"
-      //   fullWidth
-      //   startIcon={<FacebookIcon />}
-      //   sx={{ mb: 4 }}
-      // >
-      //   Prihlásiť sa účtom Facebook
-      // </Button>
-
-      // {/* Divider */}
-      // <Divider sx={{ width: "100%", mb: 2 }}>
-      //   <Typography variant="body2">alebo</Typography>
-      // </Divider>
-
-      // {/* Email */}
-      // <TextField
-      //   margin="normal"
-      //   fullWidth
-      //   label="Email"
-      //   type="email"
-      //   variant="outlined"
-      //   required
-      //   defaultValue="your@email.com"
-      // />
-
-      // {/* Password */}
-      // <TextField
-      //   margin="normal"
-      //   fullWidth
-      //   label="Password"
-      //   type="password"
-      //   variant="outlined"
-      //   required
-      //   defaultValue="******"
-      // />
-
-      // {/* Checkbox */}
-      // <FormControlLabel
-      //   control={<Checkbox color="primary" />}
-      //   label="Chcem dostávať novinky na email"
-      //   sx={{ mt: 2 }}
-      // />
-
-      // {/* Sign Up Button */}
-      // <Button
-      //   variant="contained"
-      //   fullWidth
-      //   size="large"
-      //   sx={{ mt: 2, mb: 1 }}
-      // >
-      //   Prihlásiť
-      // </Button>

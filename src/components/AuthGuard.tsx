@@ -12,11 +12,13 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   // const { data: session, status } = useSession();
   const { status } = useSession();
   const router = useRouter();
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/prihlasenie"); // Redirect unauthenticated users
     }
   }, [status, router]);
+
   if (status === "loading") {
     // Show loading spinner while checking session
     return (
@@ -31,5 +33,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
       </Box>
     );
   }
+
   return <>{children}</>;
 }

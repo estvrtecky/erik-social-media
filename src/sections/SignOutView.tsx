@@ -18,12 +18,15 @@ export default function SignOutView() {
         bgcolor: "background.paper",
         boxShadow: 3,
         borderRadius: 2,
-      }}
-    >
-      <Typography variant="h5" sx={{ mb: 3 }}>
+      }}>
+      <Typography
+        variant="h5"
+        sx={{ mb: 3 }}>
         Naozaj sa chcete odhlásiť?
       </Typography>
-      <Button variant="contained" onClick={() => signOut()}>
+      <Button
+        variant="contained"
+        onClick={() => signOut()}>
         Odhlásiť sa
       </Button>
     </Container>

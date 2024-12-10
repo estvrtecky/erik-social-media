@@ -9,9 +9,5 @@ export default function PrivateLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <AuthGuard>
-      {children} {/* Render private pages */}
-    </AuthGuard>
-  );
+  return <AuthGuard>{children}</AuthGuard>;
 }
