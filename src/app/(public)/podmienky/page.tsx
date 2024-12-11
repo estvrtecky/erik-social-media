@@ -1,13 +1,9 @@
-// src/app/podmienky/page.tsx
+// src/app/(public)/podmienky/page.tsx
 
-import { Container, Typography } from "@mui/material";
+import TermsConditionsView from "@/views/TermsConditionsView";
 
 export const metadata = { title: "Podmienky | Insta 2.0" };
 
 export default function TermsConditions() {
-  return (
-    <Container>
-      <Typography> Podmienky pouzivania </Typography>
-    </Container>
-  );
+  return <TermsConditionsView />;
 }

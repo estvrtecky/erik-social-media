@@ -1,13 +1,9 @@
 // src/app/pridat/page.tsx
 
-import { Container, Typography } from "@mui/material";
+import AddView from "@/views/AddView"; // Import the AddView component
 
 export const metadata = { title: "Pridat | Insta 2.0" };
 
-export default function Add() {
-  return (
-    <Container>
-      <Typography> Pridať </Typography>
-    </Container>
-  );
+export default function AddPage() {
+  return <AddView />;
 }

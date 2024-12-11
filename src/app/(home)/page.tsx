@@ -3,8 +3,7 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import HomeView from "@/views/HomeView"; // Import the HomeView component
 
 export const metadata = { title: "Domov | Insta 2.0" };
 
@@ -18,16 +17,5 @@ export default async function HomePage() {
   }
 
   // Show the unauthenticated home view for non-authenticated users
-  return (
-    <Container>
-      <Typography variant="h3">
-        {" "}
-        Domovská stránka - NEprihlásený user{" "}
-      </Typography>
-      <Typography variant="h6">
-        {" "}
-        Registrujte sa, aby ste mohli pridať príspevky a zobraziť profil.{" "}
-      </Typography>
-    </Container>
-  );
+  return <HomeView />;
 }
