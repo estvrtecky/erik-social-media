@@ -6,6 +6,11 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import ShareIcon from "@mui/icons-material/Share";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { Link as MuiLink } from "@mui/material";
 import NextLink from "next/link";
 
@@ -65,7 +70,25 @@ export default async function FeedPage() {
             />
 
             <CardContent>
-              <Typography variant="body1" sx={{ mb: 1 }}>
+              {/* Action Buttons */}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box>
+                <IconButton>
+                  <FavoriteBorderIcon />
+                </IconButton>
+                <IconButton>
+                  <ChatBubbleOutlineIcon />
+                </IconButton>
+                <IconButton>
+                  <ShareIcon />
+                </IconButton>
+              </Box>
+              <IconButton>
+                <BookmarkBorderIcon />
+              </IconButton>
+            </Box>
+
+              <Typography variant="body1" sx={{ mb: 1, mt: 1 }}>
                 {post.caption || "Bez popisu"}
               </Typography>
               <Typography
