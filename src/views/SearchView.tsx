@@ -1,19 +1,33 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+"use client"
 
-export default function SearchView() {
+import { Box, TextField, Typography, Grid, Card, CardContent, Avatar } from "@mui/material";
+import { useState, useEffect } from "react";
+
+export default function SearchView({ users }: { users: { id: string; name: string; image: string }[] }) {
+  const [query, setQuery] = useState("");
+  const [filteredUsers, setUsers] = useState<{ id: string; name: string; image: string }[]>(users);
+
+  useEffect(() => {
+    setUsers(
+      users.filter((user) =>
+        user.name.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+  }, [query, users]);
+
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
-        px: 2, // Added padding to the sides for better responsiveness
+        px: 2,
+        height: "auto",
+        maxWidth: "100%",
+        pb: 10, // Adds padding at the bottom to prevent content from being hidden
       }}
     >
-      <Typography variant="h4" sx={{ fontWeight: "bold", mb: 4 }}>
+      <Typography variant="h4" sx={{ fontWeight: "bold", mb: 4, mt: 4 }}>
         Vyhľadávanie
       </Typography>
 
@@ -32,38 +46,43 @@ export default function SearchView() {
           label="Hľadaj príspevky alebo používateľov"
           fullWidth
           size="small"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           sx={{
             bgcolor: "background.paper",
             boxShadow: 2,
-            borderRadius: 1, // Slight border-radius for modern look
+            borderRadius: 1,
           }}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            height: "100%",
-            borderRadius: 1, // Match the input field's border radius
-            padding: "10px 20px", // Adjust padding for better button feel
-            boxShadow: 2, // Add subtle shadow for button depth
-            "&:hover": {
-              bgcolor: "primary.dark", // Darken the button on hover
-            },
-            "&:active": {
-              bgcolor: "primary.main", // Keep the color when clicked
-            },
-          }}
-          startIcon={<SearchIcon />}
-        >
-          Hľadať
-        </Button>
       </Box>
 
-      {/* Placeholder for search results */}
-      <Box sx={{ marginTop: 4, width: "100%", textAlign: "center" }}>
-        <Typography variant="body1" color="textSecondary">
-          Zatiaľ neexistujú žiadne výsledky. Skúste niečo iné.
-        </Typography>
+      {/* Displaying filtered users in a grid */}
+      <Box sx={{ marginTop: 4, width: "100%" }}>
+        {filteredUsers.length > 0 ? (
+          <Grid container spacing={2}>
+            {filteredUsers.map((user) => (
+              <Grid item xs={12} sm={6} md={4} key={user.id}>
+                <Card sx={{ boxShadow: 2, borderRadius: 2, padding: 2 }}>
+                  {/* Card Content with Profile Picture */}
+                  <CardContent sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+                    <Avatar
+                      alt={user.name}
+                      src={user.image || "/default-profile.jpg"} // Fallback if no image
+                      sx={{ width: 80, height: 80, mb: 2 }}
+                    />
+                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                      {user.name}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Typography variant="body1" color="textSecondary" textAlign="center">
+            Zatiaľ neexistujú žiadne výsledky. Skúste niečo iné.
+          </Typography>
+        )}
       </Box>
     </Box>
   );

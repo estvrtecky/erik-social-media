@@ -48,6 +48,8 @@ export default async function FeedPage() {
               "&:hover": {
                 boxShadow: 6,
               },
+              maxWidth: 500, // Set a max width for smaller posts
+              margin: "25px auto", // Center the posts on the page
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
@@ -61,32 +63,37 @@ export default async function FeedPage() {
               </Typography>
             </Box>
 
+            {/* Square Post Image */}
             <CardMedia
               component="img"
-              height="300"
               image={post.imageUrl}
               alt={post.caption || "Post image"}
-              sx={{ borderTopLeftRadius: 2, borderTopRightRadius: 2 }}
+              sx={{
+                width: "100%", // Makes the width of the image fit the container
+                objectFit: "cover", // Ensures the image covers the area without distorting
+                borderTopLeftRadius: 2,
+                borderTopRightRadius: 2,
+              }}
             />
 
             <CardContent>
               {/* Action Buttons */}
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Box>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box>
+                  <IconButton>
+                    <FavoriteBorderIcon />
+                  </IconButton>
+                  <IconButton>
+                    <ChatBubbleOutlineIcon />
+                  </IconButton>
+                  <IconButton>
+                    <ShareIcon />
+                  </IconButton>
+                </Box>
                 <IconButton>
-                  <FavoriteBorderIcon />
-                </IconButton>
-                <IconButton>
-                  <ChatBubbleOutlineIcon />
-                </IconButton>
-                <IconButton>
-                  <ShareIcon />
+                  <BookmarkBorderIcon />
                 </IconButton>
               </Box>
-              <IconButton>
-                <BookmarkBorderIcon />
-              </IconButton>
-            </Box>
 
               <Typography variant="body1" sx={{ mb: 1, mt: 1 }}>
                 {post.caption || "Bez popisu"}
