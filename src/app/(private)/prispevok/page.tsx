@@ -1,4 +1,4 @@
-import { prisma } from "@/app/api/auth/[...nextauth]/prisma"; // Use PrismaClient instance
+import { prisma } from "@/app/api/auth/[...nextauth]/prisma"; 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -17,10 +17,10 @@ import NextLink from "next/link";
 export const metadata = { title: "Príspevky | Insta 2.0" };
 
 export default async function FeedPage() {
-  // Fetch posts from the database, including user details
+  // Fetch posts s reláciami na user a images
   const posts = await prisma.post.findMany({
     orderBy: { createdAt: "desc" },
-    include: { user: true }, // Fetch related user data
+    include: { user: true, images: true }, // Zahrnutie obrázkov príspevku
   });
 
   return (
@@ -48,8 +48,8 @@ export default async function FeedPage() {
               "&:hover": {
                 boxShadow: 6,
               },
-              maxWidth: 500, // Set a max width for smaller posts
-              margin: "25px auto", // Center the posts on the page
+              maxWidth: 500,
+              margin: "25px auto",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
@@ -63,21 +63,22 @@ export default async function FeedPage() {
               </Typography>
             </Box>
 
-            {/* Square Post Image */}
-            <CardMedia
-              component="img"
-              image={post.imageUrl}
-              alt={post.caption || "Post image"}
-              sx={{
-                width: "100%", // Makes the width of the image fit the container
-                objectFit: "cover", // Ensures the image covers the area without distorting
-                borderTopLeftRadius: 2,
-                borderTopRightRadius: 2,
-              }}
-            />
+            {/* Zobrazenie obrázku príspevku (ak existuje) */}
+            {post.images.length > 0 && (
+              <CardMedia
+                component="img"
+                image={post.images[0].imageUrl} // Zobrazenie prvého obrázku
+                alt={post.caption || "Post image"}
+                sx={{
+                  width: "100%",
+                  objectFit: "cover",
+                  borderTopLeftRadius: 2,
+                  borderTopRightRadius: 2,
+                }}
+              />
+            )}
 
             <CardContent>
-              {/* Action Buttons */}
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Box>
                   <IconButton>
