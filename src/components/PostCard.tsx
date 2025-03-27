@@ -1,5 +1,3 @@
-// src/components/PostCard.tsx
-
 import {
   Card,
   CardMedia,
@@ -15,6 +13,9 @@ import ShareIcon from "@mui/icons-material/Share";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 export default function PostCard({ post }: { post: any }) {
+  // Predpokladáme, že images[0].imageUrl obsahuje verejnú URL obrázka
+  const imageUrl = post.images?.[0]?.imageUrl;
+
   return (
     <Card
       sx={{
@@ -40,10 +41,10 @@ export default function PostCard({ post }: { post: any }) {
       </Box>
 
       {/* Zobrazenie obrázku príspevku */}
-      {post.images.length > 0 && (
+      {imageUrl ? (
         <CardMedia
           component="img"
-          image={post.images[0].imageUrl}
+          image={imageUrl} // Tu použijeme imageUrl
           alt={post.caption || "Post image"}
           sx={{
             width: "100%",
@@ -52,6 +53,21 @@ export default function PostCard({ post }: { post: any }) {
             borderTopRightRadius: 2,
           }}
         />
+      ) : (
+        <Box
+          sx={{
+            width: "100%",
+            height: "300px",
+            backgroundColor: "grey.300",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="body2" color="textSecondary">
+            No image available
+          </Typography>
+        </Box>
       )}
 
       <CardContent>

@@ -21,7 +21,14 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       // Redirect to home page after sign-in
-      return baseUrl || url; // baseUrl is automatically set from NEXTAUTH_URL in .env
+      return baseUrl || url;
+    },
+    async session({ session, user }) {
+      // Add user ID to session
+      if (user) {
+        session.user.id = user.id;
+      }
+      return session;
     },
   },
 };

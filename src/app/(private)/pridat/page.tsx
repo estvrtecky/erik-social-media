@@ -1,9 +1,16 @@
-// src/app/pridat/page.tsx
+// src/app/(private)/pridat/page.tsx
 
-import AddView from "@/views/AddView"; // Import the AddView component
+import NewPostForm from "@/components/NewPostForm";
 
-export const metadata = { title: "Pridat | Insta 2.0" };
+export const metadata = {
+  title: "New Post | Echo",
+};
 
-export default function AddPage() {
-  return <AddView />;
+export default function NewPostPage() {
+  return (
+    <div>
+      <h1>Create New Post</h1>
+      <NewPostForm />
+    </div>
+  );
 }
