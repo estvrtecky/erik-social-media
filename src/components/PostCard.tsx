@@ -1,3 +1,7 @@
+// src/components/PostCard.tsx
+
+"use client";
+
 import {
   Card,
   CardMedia,
@@ -11,10 +15,30 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ShareIcon from "@mui/icons-material/Share";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useState } from "react";
 
 export default function PostCard({ post }: { post: any }) {
-  // Predpokladáme, že images[0].imageUrl obsahuje verejnú URL obrázka
-  const imageUrl = post.images?.[0]?.imageUrl;
+  // Stav na sledovanie aktuálneho obrázka
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Funkcia na prechod na predchádzajúci obrázok
+  const prevImage = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
+
+  // Funkcia na prechod na nasledujúci obrázok
+  const nextImage = () => {
+    if (currentImageIndex < post.images.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+  };
+
+  // Získanie URL aktuálne zobrazeného obrázka
+  const imageUrl = post.images?.[currentImageIndex]?.imageUrl;
 
   return (
     <Card
@@ -67,6 +91,24 @@ export default function PostCard({ post }: { post: any }) {
           <Typography variant="body2" color="textSecondary">
             No image available
           </Typography>
+        </Box>
+      )}
+
+      {/* Ak je viac ako jeden obrázok, pridáme navigáciu */}
+      {post.images?.length > 1 && (
+        <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
+          <IconButton onClick={prevImage} disabled={currentImageIndex === 0}>
+            <ArrowBackIosIcon />
+          </IconButton>
+          <Typography sx={{ alignSelf: "center" }}>
+            {currentImageIndex + 1} / {post.images.length}
+          </Typography>
+          <IconButton
+            onClick={nextImage}
+            disabled={currentImageIndex === post.images.length - 1}
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
         </Box>
       )}
 

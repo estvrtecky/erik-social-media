@@ -1,7 +1,19 @@
+// src/components/NewPostForm.tsx
+
 "use client";
 
 import { useState } from "react";
 import { getSession } from "next-auth/react";
+import {
+  Button,
+  TextField,
+  Box,
+  Typography,
+  Input,
+  Grid,
+  Card,
+  CardMedia,
+} from "@mui/material";
 
 export default function NewPostForm() {
   const [caption, setCaption] = useState<string>("");
@@ -14,11 +26,10 @@ export default function NewPostForm() {
     setLoading(true);
     setError("");
 
-    // Kontrola, či existujú obrázky pred odoslaním formulára
     if (images.length === 0) {
       setError("Please upload at least one image.");
       setLoading(false);
-      return; // Stop submission if no images are uploaded
+      return;
     }
 
     try {
@@ -33,10 +44,8 @@ export default function NewPostForm() {
       formData.append("caption", caption);
       formData.append("userId", session.user.id);
 
-      // Logovanie pred odoslaním formulára, aby sme overili obrázky
-      console.log("Selected images:", images);
       images.forEach((image) => {
-        formData.append("images", image); // Pridáme obrázky do FormData
+        formData.append("images", image);
       });
 
       const response = await fetch("/api/posts", {
@@ -67,43 +76,117 @@ export default function NewPostForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="caption">Caption:</label>
-        <textarea
-          id="caption"
-          value={caption}
-          onChange={(e) => setCaption(e.target.value)}
-          placeholder="Write your caption here (optional)..."
-          className="w-full border p-2 rounded"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="images">Upload Images:</label>
-        <input
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 3,
+        maxWidth: 500,
+        margin: "0 auto",
+        padding: 3,
+        borderRadius: 2,
+        boxShadow: 3, // Jemný tieň pre modernejší vzhľad
+        border: "1px solid #e0e0e0", // Rám okolo formulára
+        backgroundColor: "background.paper", // Dynamická farba pozadia pre dark/light mode
+      }}
+    >
+      {/* Nahrávanie obrázkov */}
+      <Box>
+        <label htmlFor="images">
+          <Button
+            variant="outlined"
+            component="span"
+            fullWidth
+            sx={{
+              padding: "10px",
+              backgroundColor: "white",
+              color: "primary.main",
+              borderRadius: 2,
+              "&:hover": {
+                backgroundColor: "primary.light",
+              },
+            }}
+          >
+            Upload Images
+          </Button>
+        </label>
+        <Input
           type="file"
           id="images"
-          multiple
+          inputProps={{ multiple: true }}
           onChange={handleImageChange}
-          className="block w-full mt-1 text-sm text-gray-600"
+          sx={{ display: "none" }}
         />
         {images.length > 0 && (
-          <p className="text-sm text-gray-500 mt-2">
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ marginTop: 1 }}
+          >
             {images.length} image(s) selected.
-          </p>
+          </Typography>
         )}
-      </div>
+      </Box>
 
-      <button
+      {/* Zobrazenie náhľadov obrázkov */}
+      {images.length > 0 && (
+        <Grid container spacing={2} sx={{ marginTop: 2 }}>
+          {images.map((image, index) => (
+            <Grid item xs={4} key={index}>
+              <Card>
+                <CardMedia
+                  component="img"
+                  image={URL.createObjectURL(image)}
+                  alt={`Image ${index + 1}`}
+                  sx={{ width: "100%", height: 120, objectFit: "cover" }}
+                />
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
+
+      {/* Caption */}
+      <TextField
+        label="Caption"
+        value={caption}
+        onChange={(e) => setCaption(e.target.value)}
+        placeholder="Write your caption here..."
+        multiline
+        rows={4}
+        fullWidth
+        variant="outlined"
+        sx={{ borderRadius: 2 }}
+      />
+
+      {/* Submit button */}
+      <Button
         type="submit"
+        variant="contained"
+        color="primary"
+        sx={{
+          padding: "12px",
+          borderRadius: 2,
+          marginTop: 2,
+          fontWeight: 600,
+        }}
         disabled={loading}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
       >
         {loading ? "Submitting..." : "Create Post"}
-      </button>
+      </Button>
 
-      {error && <p className="text-red-600">{error}</p>}
-    </form>
+      {/* Error message */}
+      {error && (
+        <Typography
+          variant="body2"
+          color="error"
+          sx={{ textAlign: "center", marginTop: 2 }}
+        >
+          {error}
+        </Typography>
+      )}
+    </Box>
   );
 }
