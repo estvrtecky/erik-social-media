@@ -68,12 +68,29 @@ export default function Navbar() {
     pathname === "/prispevok" && status === "authenticated";
 
   return (
-    <Box sx={{ width: "100%", position: "fixed", bottom: 0 }}>
+    <Box
+      sx={{
+        width: "calc(100% - 32px)",
+        position: "fixed",
+        bottom: 16,
+        left: "50%",
+        transform: "translateX(-50%)",
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255, 255, 255, 0.5)",
+        borderRadius: "100px",
+        boxShadow: "0 6px 40px rgba(0, 0, 0, 0.15)",
+        zIndex: 10,
+        overflow: "hidden",
+        padding: "8px",
+      }}>
       <BottomNavigation
         showLabels
-        value={shouldHighlightHome ? "/" : pathname} // Highlight Home when redirected to /prispevok
-        onChange={(_, newValue) => router.push(newValue)} // Route change handler
-      >
+        value={shouldHighlightHome ? "/" : pathname}
+        onChange={(_, newValue) => router.push(newValue)}
+        sx={{
+          backgroundColor: "transparent",
+        }}>
         {navigationPaths.map((path) => (
           <BottomNavigationAction
             key={path.value}
@@ -83,10 +100,15 @@ export default function Navbar() {
           />
         ))}
       </BottomNavigation>
-      {/* Theme toggle button */}
       <IconButton
         onClick={toggleTheme}
-        sx={{ position: "absolute", top: 10, right: 10 }}>
+        sx={{
+          position: "absolute",
+          top: "50%",
+          right: 16,
+          transform: "translateY(-50%)",
+          color: "text.primary",
+        }}>
         {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
       </IconButton>
     </Box>
