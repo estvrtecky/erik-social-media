@@ -19,35 +19,25 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState } from "react";
 
-interface Post {
-  user: {
-    name: string;
-    image: string;
-  };
-  images: { imageUrl: string }[];
-  caption?: string;
-  createdAt: string;
-}
+import Caption from "./post/Caption";
+import Timestamp from "./post/Timestamp";
+import { Post } from "@/types/post";
 
 export default function PostCard({ post }: { post: Post }) {
-  // Stav na sledovanie aktuálneho obrázka
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Funkcia na prechod na predchádzajúci obrázok
   const prevImage = () => {
     if (currentImageIndex > 0) {
       setCurrentImageIndex(currentImageIndex - 1);
     }
   };
 
-  // Funkcia na prechod na nasledujúci obrázok
   const nextImage = () => {
     if (currentImageIndex < post.images.length - 1) {
       setCurrentImageIndex(currentImageIndex + 1);
     }
   };
 
-  // Získanie URL aktuálne zobrazeného obrázka
   const imageUrl = post.images?.[currentImageIndex]?.imageUrl;
 
   return (
@@ -143,17 +133,11 @@ export default function PostCard({ post }: { post: Post }) {
           </IconButton>
         </Box>
 
-        <Typography
-          variant="body1"
-          sx={{ mb: 1, mt: 1 }}>
-          {post.caption || "Bez popisu"}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          sx={{ fontSize: "0.8rem" }}>
-          Publikované: {new Date(post.createdAt).toLocaleString("sk-SK")}
-        </Typography>
+        <Caption
+          username={post.user.name}
+          caption={post.caption || "Bez popisu"}
+        />
+        <Timestamp date={post.createdAt} />
       </CardContent>
     </Card>
   );
