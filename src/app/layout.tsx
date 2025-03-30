@@ -1,14 +1,17 @@
 // src/app/layout.tsx
 
 import { Metadata } from "next";
-import "./globals.css";
-import Navbar from "../components/NavBar";
+
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+
 import AuthProvider from "../components/AuthProvider";
+import Navbar from "../components/NavBar";
 import ThemeProvider from "../components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Insta 2.0",
-  description: "Created by students of SPŠE Zochova 9, Bratislava",
+  title: "Echo | Your social network",
+  description: "Created by Erik",
 };
 
 export default function RootLayout({
@@ -21,15 +24,22 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <ThemeProvider>
-            <div
-              style={{
+            <Box
+              sx={{
                 minHeight: "100vh",
                 display: "flex",
                 flexDirection: "column",
               }}>
-              <main style={{ flexGrow: 1 }}>{children}</main>
-            </div>
-            <Navbar />
+              <Container
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                }}>
+                {children}
+              </Container>
+              <Navbar />
+            </Box>
           </ThemeProvider>
         </AuthProvider>
       </body>
