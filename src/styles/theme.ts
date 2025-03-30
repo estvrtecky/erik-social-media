@@ -3,63 +3,100 @@ import { createTheme } from "@mui/material/styles";
 // Light theme
 const lightPalette = {
   primary: {
-    main: "#1976d2", // Blue for primary (trustworthy and calming)
+    main: "#212121",
+    contrastText: "#ffffff",
   },
   secondary: {
-    main: "#0288d1", // Slightly darker blue for secondary (complementary)
+    main: "#ff4081",
+    contrastText: "#ffffff",
   },
   background: {
-    default: "#f5f5f5", // Very light gray background (clean and minimal)
-    paper: "#ffffff", // White paper background for containers
+    default: "#f5f5f5",
+    paper: "#ffffff",
   },
   text: {
-    primary: "#212121", // Dark gray text for better readability
-    secondary: "#757575", // Subtle secondary text color
+    primary: "#212121",
+    secondary: "#757575",
   },
   error: {
-    main: "#f44336", // Bright red for error states
+    main: "#f44336",
+  },
+  warning: {
+    main: "#ff9800",
+  },
+  info: {
+    main: "#2196f3",
+  },
+  success: {
+    main: "#4caf50",
   },
 };
 
 // Dark theme
 const darkPalette = {
   primary: {
-    main: "#4caf50", // Green for primary in dark mode (fresh and vibrant)
+    main: "#e0e0e0",
+    contrastText: "#000000",
   },
   secondary: {
-    main: "#81c784", // Lighter green for secondary (complementary)
+    main: "#f50057",
+    contrastText: "#000000",
   },
   background: {
-    default: "#121212", // Dark background (near black)
-    paper: "#1d1d1d", // Dark paper background for elements
+    default: "#121212",
+    paper: "#1e1e1e",
   },
   text: {
-    primary: "#e0e0e0", // Light gray text for readability on dark background
-    secondary: "#a0a0a0", // Slightly muted secondary text color
+    primary: "#e0e0e0",
+    secondary: "#bdbdbd",
   },
   error: {
-    main: "#f44336", // Red for error states
+    main: "#ef5350",
+  },
+  warning: {
+    main: "#ffa726",
+  },
+  info: {
+    main: "#64b5f6",
+  },
+  success: {
+    main: "#81c784",
   },
 };
 
 // Create the light theme
 export const lightTheme = createTheme({
   palette: {
-    mode: "light", // Set to light mode
-    ...lightPalette, // Apply light palette colors
+    mode: "light",
+    ...lightPalette,
   },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px",
+          textTransform: "none",
+        },
+      },
+    },
     MuiLink: {
       styleOverrides: {
         root: {
-          textDecoration: "none", // Remove underline
-          color: "#1976d2", // Primary blue color for links
+          textDecoration: "none",
+          color: lightPalette.primary.main,
           fontWeight: 500,
-          fontStyle: "italic", // Make the link italic
           "&:hover": {
-            textDecoration: "underline", // Underline on hover
-            color: "#1565c0", // Darker blue for hover effect
+            textDecoration: "underline",
+            color: lightPalette.secondary.main,
           },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          border: `2px solid ${lightPalette.text.secondary}`,
+          borderRadius: "8px",
         },
       },
     },
@@ -69,21 +106,36 @@ export const lightTheme = createTheme({
 // Create the dark theme
 export const darkTheme = createTheme({
   palette: {
-    mode: "dark", // Set to dark mode
-    ...darkPalette, // Apply dark palette colors
+    mode: "dark",
+    ...darkPalette,
   },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px",
+          textTransform: "none",
+        },
+      },
+    },
     MuiLink: {
       styleOverrides: {
         root: {
-          textDecoration: "none", // Remove underline
-          color: "#4caf50", // Primary green color for links in dark mode
+          textDecoration: "none",
+          color: darkPalette.primary.main,
           fontWeight: 500,
-          fontStyle: "italic", // Italicize the link
           "&:hover": {
-            textDecoration: "underline", // Underline on hover
-            color: "#388e3c", // Darker green for hover effect
+            textDecoration: "underline",
+            color: darkPalette.secondary.main,
           },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          border: `2px solid ${darkPalette.text.secondary}`,
+          borderRadius: "8px",
         },
       },
     },
