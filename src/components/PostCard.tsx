@@ -19,7 +19,17 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useState } from "react";
 
-export default function PostCard({ post }: { post: any }) {
+interface Post {
+  user: {
+    name: string;
+    image: string;
+  };
+  images: { imageUrl: string }[];
+  caption?: string;
+  createdAt: string;
+}
+
+export default function PostCard({ post }: { post: Post }) {
   // Stav na sledovanie aktuálneho obrázka
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -51,15 +61,16 @@ export default function PostCard({ post }: { post: any }) {
         },
         maxWidth: 500,
         margin: "25px auto",
-      }}
-    >
+      }}>
       <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
         <Avatar
           alt={post.user.name || "User"}
           src={post.user.image || ""}
           sx={{ mr: 2, width: 40, height: 40 }}
         />
-        <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+        <Typography
+          variant="subtitle1"
+          sx={{ fontWeight: "bold" }}>
           {post.user.name}
         </Typography>
       </Box>
@@ -86,9 +97,10 @@ export default function PostCard({ post }: { post: any }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-          }}
-        >
-          <Typography variant="body2" color="textSecondary">
+          }}>
+          <Typography
+            variant="body2"
+            color="textSecondary">
             No image available
           </Typography>
         </Box>
@@ -97,7 +109,9 @@ export default function PostCard({ post }: { post: any }) {
       {/* Ak je viac ako jeden obrázok, pridáme navigáciu */}
       {post.images?.length > 1 && (
         <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
-          <IconButton onClick={prevImage} disabled={currentImageIndex === 0}>
+          <IconButton
+            onClick={prevImage}
+            disabled={currentImageIndex === 0}>
             <ArrowBackIosIcon />
           </IconButton>
           <Typography sx={{ alignSelf: "center" }}>
@@ -105,8 +119,7 @@ export default function PostCard({ post }: { post: any }) {
           </Typography>
           <IconButton
             onClick={nextImage}
-            disabled={currentImageIndex === post.images.length - 1}
-          >
+            disabled={currentImageIndex === post.images.length - 1}>
             <ArrowForwardIosIcon />
           </IconButton>
         </Box>
@@ -130,14 +143,15 @@ export default function PostCard({ post }: { post: any }) {
           </IconButton>
         </Box>
 
-        <Typography variant="body1" sx={{ mb: 1, mt: 1 }}>
+        <Typography
+          variant="body1"
+          sx={{ mb: 1, mt: 1 }}>
           {post.caption || "Bez popisu"}
         </Typography>
         <Typography
           variant="body2"
           color="textSecondary"
-          sx={{ fontSize: "0.8rem" }}
-        >
+          sx={{ fontSize: "0.8rem" }}>
           Publikované: {new Date(post.createdAt).toLocaleString("sk-SK")}
         </Typography>
       </CardContent>
