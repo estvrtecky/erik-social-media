@@ -32,7 +32,7 @@ export default function Navbar() {
   // Define the navigation paths
   const nonAuthPaths = [
     { label: "Domov", value: "/", icon: <HomeIcon /> },
-    { label: "O nás", value: "/o-nas", icon: <InfoIcon /> }, // Updated icon to InfoIcon
+    { label: "O nás", value: "/about", icon: <InfoIcon /> }, // Updated icon to InfoIcon
     {
       label: "Registrácia",
       value: "/auth/registracia",
@@ -64,7 +64,8 @@ export default function Navbar() {
   const navigationPaths = status === "authenticated" ? authPaths : nonAuthPaths;
 
   // Custom logic to keep "Home" as active even after redirecting to "/prispevok"
-  const shouldHighlightHome = pathname === "/prispevok" && status === "authenticated";
+  const shouldHighlightHome =
+    pathname === "/prispevok" && status === "authenticated";
 
   return (
     <Box sx={{ width: "100%", position: "fixed", bottom: 0 }}>
@@ -85,8 +86,7 @@ export default function Navbar() {
       {/* Theme toggle button */}
       <IconButton
         onClick={toggleTheme}
-        sx={{ position: "absolute", top: 10, right: 10 }}
-      >
+        sx={{ position: "absolute", top: 10, right: 10 }}>
         {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
       </IconButton>
     </Box>
