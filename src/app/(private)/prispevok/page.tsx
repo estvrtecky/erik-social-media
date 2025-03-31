@@ -1,19 +1,20 @@
 // src/app/(private)/prispevok/page.tsx
 
 import NextLink from "next/link";
+
 import { Link as MuiLink } from "@mui/material";
 import { Container, Typography, Box } from "@mui/material";
 
 import { prisma } from "@/app/api/auth/[...nextauth]/prisma";
+import { Post } from "@/types/post";
 import PostCard from "@/components/PostCard";
 
 export const metadata = { title: "Feed | Echo" };
 
 export default async function FeedPage() {
-  // Fetch príspevkov s reláciami na používateľov a obrázky
-  const posts = await prisma.post.findMany({
+  const posts: Post[] = await prisma.post.findMany({
     orderBy: { createdAt: "desc" },
-    include: { user: true, images: true },
+    include: { user: true, images: true, likes: true },
   });
 
   return (
@@ -37,16 +38,7 @@ export default async function FeedPage() {
           return (
             <PostCard
               key={post.id}
-              post={{
-                ...post,
-                caption: post.caption ?? undefined,
-                createdAt: post.createdAt.toISOString(),
-                user: {
-                  ...post.user,
-                  name: post.user.name!,
-                  image: post.user.image ?? "",
-                },
-              }}
+              post={post}
             />
           );
         }) // Každý príspevok je zobrazený pomocou PostCard
@@ -73,8 +65,8 @@ export default async function FeedPage() {
             Buďte prvý, kto zdieľa príspevok!{" "}
             <MuiLink
               component={NextLink}
-              href="/pridat">
-              Vytvoriť nový príspevok
+              href="/new-post">
+              Create a new post
             </MuiLink>
           </Typography>
         </Box>

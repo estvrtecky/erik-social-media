@@ -2,6 +2,8 @@
 
 "use client";
 
+import { useState } from "react";
+
 import {
   Card,
   CardMedia,
@@ -11,17 +13,16 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ShareIcon from "@mui/icons-material/Share";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState } from "react";
 
-import Caption from "./post/Caption";
-import Timestamp from "./post/Timestamp";
 import { Post } from "@/types/post";
+import Caption from "./post/Caption";
+import LikeButton from "./post/LikeButton";
+import Timestamp from "./post/Timestamp";
 
 export default function PostCard({ post }: { post: Post }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -118,9 +119,11 @@ export default function PostCard({ post }: { post: Post }) {
       <CardContent>
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
           <Box>
-            <IconButton>
-              <FavoriteBorderIcon />
-            </IconButton>
+            <LikeButton
+              postId={post.id}
+              isLiked={post.likes.some((like) => like.userId === post.userId)}
+              initialLikes={post.likes.length}
+            />
             <IconButton>
               <ChatBubbleOutlineIcon />
             </IconButton>
@@ -134,7 +137,7 @@ export default function PostCard({ post }: { post: Post }) {
         </Box>
 
         <Caption
-          username={post.user.name}
+          username={post.user.name || "Unknown user"}
           caption={post.caption || "Bez popisu"}
         />
         <Timestamp date={post.createdAt} />

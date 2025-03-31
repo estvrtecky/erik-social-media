@@ -2,9 +2,9 @@
 
 import { Typography } from "@mui/material";
 
-export default function Timestamp({ date }: { date: string }) {
+export default function Timestamp({ date }: { date: Date }) {
   const formattedDate = (() => {
-    const diff = Date.now() - new Date(date).getTime();
+    const diff = Date.now() - date.getTime();
     const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
