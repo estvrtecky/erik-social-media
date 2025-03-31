@@ -47,8 +47,8 @@ const darkPalette = {
     paper: "#1e1e1e",
   },
   text: {
-    primary: "#e0e0e0",
-    secondary: "#bdbdbd",
+    primary: "#ffffff",
+    secondary: "#c0c0c0",
   },
   error: {
     main: "#ef5350",

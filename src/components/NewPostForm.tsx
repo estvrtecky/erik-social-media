@@ -3,6 +3,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter
 import { getSession } from "next-auth/react";
 import {
   Button,
@@ -20,6 +21,7 @@ export default function NewPostForm() {
   const [images, setImages] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,6 +60,7 @@ export default function NewPostForm() {
         alert("Post created successfully!");
         setCaption("");
         setImages([]);
+        router.push("/prispevok");
       } else {
         setError(data.message || "Failed to create post.");
       }
@@ -87,11 +90,10 @@ export default function NewPostForm() {
         margin: "0 auto",
         padding: 3,
         borderRadius: 2,
-        boxShadow: 3, // Jemný tieň pre modernejší vzhľad
-        border: "1px solid #e0e0e0", // Rám okolo formulára
-        backgroundColor: "background.paper", // Dynamická farba pozadia pre dark/light mode
-      }}
-    >
+        boxShadow: 3,
+        border: "2px solid #e0e0e0",
+        backgroundColor: "background.paper",
+      }}>
       {/* Nahrávanie obrázkov */}
       <Box>
         <label htmlFor="images">
@@ -102,13 +104,12 @@ export default function NewPostForm() {
             sx={{
               padding: "10px",
               backgroundColor: "white",
-              color: "primary.main",
+              color: "black",
               borderRadius: 2,
               "&:hover": {
                 backgroundColor: "primary.light",
               },
-            }}
-          >
+            }}>
             Upload Images
           </Button>
         </label>
@@ -123,8 +124,7 @@ export default function NewPostForm() {
           <Typography
             variant="body2"
             color="textSecondary"
-            sx={{ marginTop: 1 }}
-          >
+            sx={{ marginTop: 1 }}>
             {images.length} image(s) selected.
           </Typography>
         )}
@@ -132,9 +132,15 @@ export default function NewPostForm() {
 
       {/* Zobrazenie náhľadov obrázkov */}
       {images.length > 0 && (
-        <Grid container spacing={2} sx={{ marginTop: 2 }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ marginTop: 2 }}>
           {images.map((image, index) => (
-            <Grid item xs={4} key={index}>
+            <Grid
+              item
+              xs={4}
+              key={index}>
               <Card>
                 <CardMedia
                   component="img"
@@ -172,8 +178,7 @@ export default function NewPostForm() {
           marginTop: 2,
           fontWeight: 600,
         }}
-        disabled={loading}
-      >
+        disabled={loading}>
         {loading ? "Submitting..." : "Create Post"}
       </Button>
 
@@ -182,8 +187,7 @@ export default function NewPostForm() {
         <Typography
           variant="body2"
           color="error"
-          sx={{ textAlign: "center", marginTop: 2 }}
-        >
+          sx={{ textAlign: "center", marginTop: 2 }}>
           {error}
         </Typography>
       )}
