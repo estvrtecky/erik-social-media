@@ -1,5 +1,9 @@
 // src/components/PostCard.tsx
 
+"use client";
+
+import { useSession } from "next-auth/react";
+
 import {
   Card,
   CardContent,
@@ -19,6 +23,9 @@ import LikeButton from "./post/LikeButton";
 import Timestamp from "./post/Timestamp";
 
 export default function PostCard({ post }: { post: Post }) {
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+
   return (
     <Card
       sx={{
@@ -52,7 +59,7 @@ export default function PostCard({ post }: { post: Post }) {
           <Box>
             <LikeButton
               postId={post.id}
-              isLiked={post.likes.some((like) => like.userId === post.userId)}
+              isLiked={post.likes.some((like) => like.userId === userId)}
               initialLikes={post.likes.length}
             />
             <IconButton>
