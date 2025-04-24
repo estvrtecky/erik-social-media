@@ -1,13 +1,18 @@
-// src/app/profil/page.tsx
+// src/app/(private)/profil/page.tsx
 
-import { Container, Typography } from "@mui/material";
+import { getServerSession } from "next-auth";
 
-export const metadata = { title: 'List of profiles | Insta 2.0' };
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { redirect } from "next/navigation";
 
-export default function ProfileList() {
-  return (
-    <Container>
-      <Typography> List of profiles </Typography>
-    </Container>
-  );
+export const metadata = { title: "Profil | Insta 2.0" };
+
+export default async function ProfileList() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    redirect(`/profil/${session.user.id}`);
+  } else {
+    redirect("/auth/prihlasenie");
+  }
 }
